@@ -20,7 +20,7 @@ function App() {
     const [name, SetName] = useState("");
     const [profile, setProfile] = useState("");
     const [justifyActive, setJustifyActive] = useState('tab1');
-    
+    const apiurl = process.env.REACT_APP_API_URL
     const navigate = useNavigate();
     const token = localStorage.getItem("token")
 
@@ -38,7 +38,7 @@ function App() {
     };
 
     const userLogin = async () => {
-        await axios.post(`${REACT_APP_API_URL}/signin`, {
+        await axios.post(`${apiurl}/signin`, {
             email,
             password
         })
@@ -83,7 +83,7 @@ function App() {
         formData.append('password', createPassword);
         formData.append('profile', profile);
 
-        await axios.post(`${REACT_APP_API_URL}/createuser`, formData, {
+        await axios.post(`${apiurl}/createuser`, formData, {
             headers: { "Content-Type": "multipart/form-data" },
         }).then((res) => {
             if (res.data.status === true) {

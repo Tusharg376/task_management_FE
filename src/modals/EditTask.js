@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 export default function EditTask({ modal, toggle, oldTitle, oldDescription, task_id, fetchData }) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("")
+    const apiurl = process.env.REACT_APP_API_URL
 
     useEffect(() => {
         setTitle(oldTitle);
@@ -13,7 +14,7 @@ export default function EditTask({ modal, toggle, oldTitle, oldDescription, task
     },[task_id])
 
     async function updateTask() {
-        await axios.put(`${REACT_APP_API_URL}/updatetask`, {
+        await axios.put(`${apiurl}/updatetask`, {
             title,
             description,
             task_id

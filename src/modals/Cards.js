@@ -7,7 +7,7 @@ export default function Card({createModal}) {
   const [modal, setModal] = useState({});
   const [taskArr, setTaskArr] = useState([])
   const [deleted, setDeleted] = useState(false);
-
+  const apiurl = process.env.REACT_APP_API_URL
   const colors = [
     {
       primaryColor: "#5D93E1",
@@ -40,7 +40,7 @@ export default function Card({createModal}) {
   };
 
   const handleDelete = async (task_id) => {
-    await axios.post(`${REACT_APP_API_URL}/deletetask`, {
+    await axios.post(`${apiurl}/deletetask`, {
       task_id
     }, {
       headers: { 'x-api-key': localStorage.getItem('token') }
@@ -74,7 +74,7 @@ export default function Card({createModal}) {
     })
   }
   async function fetchData() {
-    await axios.get(`${REACT_APP_API_URL}/alltasks`, {
+    await axios.get(`${apiurl}/alltasks`, {
       headers: { 'x-api-key': localStorage.getItem("token") }
     }).then((res) => {
       console.log(res)

@@ -6,10 +6,10 @@ import Swal from "sweetalert2";
 export default function CreateTask({ modal, toggle, save }) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("")
-
+    const apiurl = process.env.REACT_APP_API_URL
 
     async function saveTask() {
-        await axios.post(`${REACT_APP_API_URL}/createtask`, {
+        await axios.post(`${apiurl}/createtask`, {
             title,
             description
         }, {
