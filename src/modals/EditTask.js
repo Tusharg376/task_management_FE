@@ -3,14 +3,14 @@ import React, { useEffect, useState } from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import Swal from 'sweetalert2';
 
-export default function EditTask({ modal, toggle, oldTitle, oldDescription, task_id }) {
+export default function EditTask({ modal, toggle, oldTitle, oldDescription, task_id, fetchData }) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("")
 
     useEffect(() => {
         setTitle(oldTitle);
         setDescription(oldDescription);
-    }, [title])
+    },[task_id])
 
     async function updateTask() {
         await axios.put('http://localhost:3001/updatetask', {
@@ -22,6 +22,7 @@ export default function EditTask({ modal, toggle, oldTitle, oldDescription, task
         }).then((res) => {
             if (res.data.message === "task updated successfully") {
                 toggle()
+                fetchData()
                 Swal.fire({
                     title: res.data.message,
                     icon: "success",

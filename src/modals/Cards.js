@@ -4,7 +4,7 @@ import EditTask from './EditTask';
 import Swal from 'sweetalert2';
 
 export default function Card({createModal}) {
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState({});
   const [taskArr, setTaskArr] = useState([])
   const [deleted, setDeleted] = useState(false);
 
@@ -32,6 +32,12 @@ export default function Card({createModal}) {
   ]
 
   const toggle = () => setModal(!modal)
+  const toggleModal = (task_id) => {
+    setModal((prevModal) => ({
+      ...prevModal,
+      [task_id]: !prevModal[task_id],
+    }));
+  };
 
   const handleDelete = async (task_id) => {
     await axios.post('http://localhost:3001/deletetask', {
@@ -68,28 +74,28 @@ export default function Card({createModal}) {
       });
     })
   }
+  async function fetchData() {
+    await axios.get('http://localhost:3001/alltasks', {
+      headers: { 'x-api-key': localStorage.getItem("token") }
+    }).then((res) => {
+      console.log(res)
+      setTaskArr(res.data.data)
+    }).catch((error) => {
+      Swal.fire({
+        title: error.response.data.message,
+        icon: "warning",
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        background: "white",
+        iconColor: "#222",
+        padding: "0.5rem",
+      });
+    })
+  }
   useEffect(() => {
-    async function fetchData() {
-      await axios.get('http://localhost:3001/alltasks', {
-        headers: { 'x-api-key': localStorage.getItem("token") }
-      }).then((res) => {
-        console.log(res)
-        setTaskArr(res.data.data)
-      }).catch((error) => {
-        Swal.fire({
-          title: error.response.data.message,
-          icon: "warning",
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          background: "white",
-          iconColor: "#222",
-          padding: "0.5rem",
-        });
-      })
-    }
     fetchData()
     setDeleted(false)
   }, [deleted,createModal])
@@ -103,11 +109,11 @@ export default function Card({createModal}) {
         <span className='card-header' style={{ backgroundColor: colors[obj.task_id % 5].secondaryColor, borderRadius: "10px" }}>{obj.title}</span>
         <p className="card-desc mt-3">{obj.description}</p>
         <div style={{ position: "absolute", right: "20px", bottom: "15px" }}>
-          <i className="far fa-edit" style={{ color: colors[obj.task_id % 5].primaryColor, cursor: "pointer", marginRight: "8px" }} onClick={() => setModal(true)} ></i>
+          <i className="far fa-edit" style={{ color: colors[obj.task_id % 5].primaryColor, cursor: "pointer", marginRight: "8px" }} onClick={() => toggleModal(obj.task_id)} ></i>
           <i className="fas fa-trash-alt" style={{ color: colors[obj.task_id % 5].primaryColor, cursor: "pointer" }} onClick={() => handleDelete(obj.task_id)}></i>
         </div>
       </div>
-      <EditTask modal={modal} toggle={toggle} oldTitle={obj.title} oldDescription={obj.description} task_id={obj.task_id} />
+      <EditTask  modal={modal[obj.task_id] || false} toggle={toggle} fetchData={fetchData} oldTitle={obj.title} oldDescription={obj.description} task_id={obj.task_id} key={obj.task_id}/>
     </div>
   ))}
 </>
