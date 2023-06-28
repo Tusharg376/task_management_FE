@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react';
 import EditTask from './EditTask';
 import Swal from 'sweetalert2';
 
-export default function Card({ title, description, task_id }) {
+export default function Card({createModal}) {
   const [modal, setModal] = useState(false);
+  const [taskArr, setTaskArr] = useState([])
+  const [deleted, setDeleted] = useState(false);
 
   const colors = [
     {
@@ -31,9 +33,7 @@ export default function Card({ title, description, task_id }) {
 
   const toggle = () => setModal(!modal)
 
-
-
-  const handleDelete = async () => {
+  const handleDelete = async (task_id) => {
     await axios.post('http://localhost:3001/deletetask', {
       task_id
     }, {
@@ -51,7 +51,8 @@ export default function Card({ title, description, task_id }) {
         iconColor: "#222",
         padding: "0.5rem",
       });
-      window.location.reload()
+      setDeleted(true);
+      // window.location.reload()
     }).catch((error) => {
       Swal.fire({
         title: error.response.data.message,
@@ -67,20 +68,49 @@ export default function Card({ title, description, task_id }) {
       });
     })
   }
-
+  useEffect(() => {
+    async function fetchData() {
+      await axios.get('http://localhost:3001/alltasks', {
+        headers: { 'x-api-key': localStorage.getItem("token") }
+      }).then((res) => {
+        console.log(res)
+        setTaskArr(res.data.data)
+      }).catch((error) => {
+        Swal.fire({
+          title: error.response.data.message,
+          icon: "warning",
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          background: "white",
+          iconColor: "#222",
+          padding: "0.5rem",
+        });
+      })
+    }
+    fetchData()
+    setDeleted(false)
+  }, [deleted,createModal])
 
   return (
-    <div className='card-wrapper mr-5' >
-      <div className='card-top' style={{ "background-color": colors[task_id % 5].primaryColor }}></div>
+    <>
+  {taskArr.map((obj) => (
+    <div className='card-wrapper mr-5' key={obj.task_id}>
+      <div className='card-top' style={{ backgroundColor: colors[obj.task_id % 5].primaryColor }}></div>
       <div className='task-holder'>
-        <span className='card-header' style={{ "background-color": colors[task_id % 5].secondaryColor, "border-radius": "10px" }}>{title}</span>
-        <p className="card-desc mt-3">{description}</p>
-        <div style={{ "position": "absolute", "right": "20px", "bottom": "20px" }}>
-          <i className="far fa-edit" style={{ "color": colors[task_id % 5].primaryColor, "cursor": "pointer", "margin-right": "8px" }} onClick={() => setModal(true)} ></i>
-          <i className="fas fa-trash-alt" style={{ "color": colors[task_id % 5].primaryColor, "cursor": "pointer" }} onClick={handleDelete}></i>
+        <span className='card-header' style={{ backgroundColor: colors[obj.task_id % 5].secondaryColor, borderRadius: "10px" }}>{obj.title}</span>
+        <p className="card-desc mt-3">{obj.description}</p>
+        <div style={{ position: "absolute", right: "20px", bottom: "15px" }}>
+          <i className="far fa-edit" style={{ color: colors[obj.task_id % 5].primaryColor, cursor: "pointer", marginRight: "8px" }} onClick={() => setModal(true)} ></i>
+          <i className="fas fa-trash-alt" style={{ color: colors[obj.task_id % 5].primaryColor, cursor: "pointer" }} onClick={() => handleDelete(obj.task_id)}></i>
         </div>
       </div>
-      <EditTask modal={modal} toggle={toggle} oldTitle={title} oldDescription={description} task_id={task_id} />
+      <EditTask modal={modal} toggle={toggle} oldTitle={obj.title} oldDescription={obj.description} task_id={obj.task_id} />
     </div>
+  ))}
+</>
+
   );
 }

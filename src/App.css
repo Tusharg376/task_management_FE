@@ -77,8 +77,10 @@
 }
 
 .card-desc{
+    word-wrap: break-word;
     margin-left: 10px;
     max-width: 250px;
     flex-grow: 1;
-    /* overflow: auto; */
+    margin-bottom: 23px;
+    overflow: auto;
 }
