@@ -9,7 +9,7 @@ export default function CreateTask({ modal, toggle, save }) {
 
 
     async function saveTask() {
-        await axios.post('http://localhost:3001/createtask', {
+        await axios.post(`${REACT_APP_API_URL}/createtask`, {
             title,
             description
         }, {

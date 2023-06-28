@@ -40,7 +40,7 @@ export default function Card({createModal}) {
   };
 
   const handleDelete = async (task_id) => {
-    await axios.post('http://localhost:3001/deletetask', {
+    await axios.post(`${REACT_APP_API_URL}/deletetask`, {
       task_id
     }, {
       headers: { 'x-api-key': localStorage.getItem('token') }
@@ -58,7 +58,6 @@ export default function Card({createModal}) {
         padding: "0.5rem",
       });
       setDeleted(true);
-      // window.location.reload()
     }).catch((error) => {
       Swal.fire({
         title: error.response.data.message,
@@ -75,7 +74,7 @@ export default function Card({createModal}) {
     })
   }
   async function fetchData() {
-    await axios.get('http://localhost:3001/alltasks', {
+    await axios.get(`${REACT_APP_API_URL}/alltasks`, {
       headers: { 'x-api-key': localStorage.getItem("token") }
     }).then((res) => {
       console.log(res)

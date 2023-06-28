@@ -38,7 +38,7 @@ function App() {
     };
 
     const userLogin = async () => {
-        await axios.post("http://localhost:3001/signin", {
+        await axios.post(`${REACT_APP_API_URL}/signin`, {
             email,
             password
         })
@@ -83,7 +83,7 @@ function App() {
         formData.append('password', createPassword);
         formData.append('profile', profile);
 
-        await axios.post('http://localhost:3001/createuser', formData, {
+        await axios.post(`${REACT_APP_API_URL}/createuser`, formData, {
             headers: { "Content-Type": "multipart/form-data" },
         }).then((res) => {
             if (res.data.status === true) {

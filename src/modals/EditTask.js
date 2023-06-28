@@ -13,7 +13,7 @@ export default function EditTask({ modal, toggle, oldTitle, oldDescription, task
     },[task_id])
 
     async function updateTask() {
-        await axios.put('http://localhost:3001/updatetask', {
+        await axios.put(`${REACT_APP_API_URL}/updatetask`, {
             title,
             description,
             task_id
