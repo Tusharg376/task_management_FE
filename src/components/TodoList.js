@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from 'react-router-dom';
 import { Avatar, IconButton } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
+import BackgroundAnimate from '../modals/Background';
 
 export default function TodoList() {
     const [modal, setModal] = useState(false);
@@ -43,19 +44,22 @@ export default function TodoList() {
         <>
             <div className='header '>
                 <div className='title-div'>
-                    <h3>Todo List</h3>
-                    <button className='btn btn-outline-primary mt-2' onClick={() => setModal(true)} >Create Task</button>
+                <h3 id="my-heading">Todo List</h3>
+
+
+                    
+                    <button className='button-63' onClick={() => setModal(true)} >Create Task</button>
                 </div>
                 <div className='profile-div'>
                     <IconButton onClick={handleLogout}>
                         <LogoutIcon />
                     </IconButton>
                     <Avatar
-                        alt="Remy Sharp"
+                        alt="profile"
                         src={profile}
                         sx={{ width: 80, height: 80 }}
                     />
-                    <p>Welcome {name} </p>
+                    <p className='fas fa-star' >Welcome {name} </p>
                     {/* <button className='btn btn-danger' onClick={handleLogout} >Logout</button> */}
                 </div>
             </div>
@@ -63,6 +67,7 @@ export default function TodoList() {
                 <Card createModal={modal} />
             </div>
             <CreateTask toggle={toggle} modal={modal} />
+            <BackgroundAnimate/>
         </>
     )
 }
