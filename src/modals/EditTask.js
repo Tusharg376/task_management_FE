@@ -1,3 +1,4 @@
+import { Alert } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
@@ -6,6 +7,7 @@ import Swal from 'sweetalert2';
 export default function EditTask({ modal, toggle, oldTitle, oldDescription, task_id, fetchData }) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("")
+    const [errors,setErrors] = useState({});
     const apiurl = process.env.REACT_APP_API_URL
 
     useEffect(() => {
@@ -14,19 +16,38 @@ export default function EditTask({ modal, toggle, oldTitle, oldDescription, task
     },[task_id])
 
     async function updateTask() {
-        await axios.put(`${apiurl}/updatetask`, {
-            title,
-            description,
-            task_id
-        }, {
-            headers: { 'x-api-key': localStorage.getItem('token') }
-        }).then((res) => {
-            if (res.data.message === "task updated successfully") {
-                toggle()
-                fetchData()
+        const validateErrors = validateInputs()
+
+        if(Object.keys(validateErrors).length === 0){
+            await axios.put(`${apiurl}/updatetask`, {
+                title,
+                description,
+                task_id
+            }, {
+                headers: { 'x-api-key': localStorage.getItem('token') }
+            }).then((res) => {
+                if (res.data.message === "task updated successfully") {
+                    toggle()
+                    fetchData()
+                    Swal.fire({
+                        title: res.data.message,
+                        icon: "success",
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 2500,
+                        timerProgressBar: true,
+                        background: "white",
+                        iconColor: "#222",
+                        padding: "0.5rem",
+                      });
+                }
+                setTitle("")
+                setDescription("")
+            }).catch((error) => {
                 Swal.fire({
-                    title: res.data.message,
-                    icon: "success",
+                    title: error.response.data.message,
+                    icon: "warning",
                     toast: true,
                     position: "top-end",
                     showConfirmButton: false,
@@ -36,23 +57,21 @@ export default function EditTask({ modal, toggle, oldTitle, oldDescription, task
                     iconColor: "#222",
                     padding: "0.5rem",
                   });
-            }
-            setTitle("")
-            setDescription("")
-        }).catch((error) => {
-            Swal.fire({
-                title: error.response.data.message,
-                icon: "warning",
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false,
-                timer: 2500,
-                timerProgressBar: true,
-                background: "white",
-                iconColor: "#222",
-                padding: "0.5rem",
-              });
-        })
+            })
+        }else{
+            setErrors(validateErrors)
+        }
+    }
+
+    const validateInputs = ()=>{
+        const errors = {};
+
+        if(!title){
+            errors.title = "Title can't be empty"
+        }if(!description){
+            errors.description = "Description can't be empty"
+        }
+        return errors;
     }
 
     return (
@@ -72,6 +91,7 @@ export default function EditTask({ modal, toggle, oldTitle, oldDescription, task
                         </div>
                     </form>
                 </ModalBody>
+                {(errors.title || errors.description) && <Alert variant='outlined' severity="error">{(errors.title || errors.description)}</Alert>}
                 <ModalFooter>
                     <Button color="primary" onClick={updateTask}>
                         Update

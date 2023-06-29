@@ -3,6 +3,8 @@ import CreateTask from '../modals/createTask';
 import Card from '../modals/Cards';
 import Swal from "sweetalert2";
 import { useNavigate } from 'react-router-dom';
+import { Avatar, IconButton } from '@mui/material';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 export default function TodoList() {
     const [modal, setModal] = useState(false);
@@ -18,7 +20,7 @@ export default function TodoList() {
         }
     }, [])
 
-    const handleLogout = ()=>{
+    const handleLogout = () => {
         Swal.fire({
             title: "Logged out successfully",
             icon: "success",
@@ -33,7 +35,8 @@ export default function TodoList() {
         });
         localStorage.removeItem("token")
         localStorage.removeItem("profile")
-        navigate('/')        
+        localStorage.removeItem("name")
+        navigate('/')
     }
 
     return (
@@ -44,14 +47,20 @@ export default function TodoList() {
                     <button className='btn btn-outline-primary mt-2' onClick={() => setModal(true)} >Create Task</button>
                 </div>
                 <div className='profile-div'>
+                    <IconButton onClick={handleLogout}>
+                        <LogoutIcon />
+                    </IconButton>
+                    <Avatar
+                        alt="Remy Sharp"
+                        src={profile}
+                        sx={{ width: 80, height: 80 }}
+                    />
                     <p>Welcome {name} </p>
-                    <img className='image' src={profile} alt="profile" />
-                    <button className='btn btn-danger' onClick={handleLogout} >Logout</button>
+                    {/* <button className='btn btn-danger' onClick={handleLogout} >Logout</button> */}
                 </div>
             </div>
             <div className='task-container'>
-                {/* {taskArr.map((obj) => <Card title={obj.title} description={obj.description} task_id={obj.task_id} />)} */}
-                <Card createModal = {modal}/>
+                <Card createModal={modal} />
             </div>
             <CreateTask toggle={toggle} modal={modal} />
         </>
