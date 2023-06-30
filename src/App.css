@@ -1,11 +1,11 @@
 .header{
-  height:200px;
+  height:150px;
   width:100%;
   background-color: #E9EEF6;
   display:flex;
   justify-content: space-between; 
   border-bottom: 4px solid;
-  background-image:url('https://t4.ftcdn.net/jpg/04/53/80/77/360_F_453807754_wT0MTOEGl0DRjF3hNgwHIWxdo01PEwBS.webp');
+  background-image:url('https://t4.ftcdn.net/jpg/03/60/97/91/360_F_360979143_v7xart5p5Z7AgUx8SFGRYtT3R0GZuOaf.webp');
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -17,7 +17,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-left: 102px;
+  margin-right: 85px;
 }
 
 .profile-div{
@@ -25,6 +25,7 @@
   justify-content: space-evenly;
   flex-direction: column;
   align-items: center;
+  margin-left: 7px;
   margin-right: 7px;
 }
 
@@ -68,6 +69,8 @@
 .card-header{
   margin-top: 10px;
   margin-bottom: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
   max-width: max-content;
   height: 30px;
   padding: 1px 10px !important;
@@ -81,7 +84,7 @@
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-evenly;
   padding : 40px 100px;
 }
 
@@ -102,43 +105,32 @@
   padding-left: 0;
 }
 
-
-.button-63 {
-  align-items: center;
-  background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
-  border: 0;
-  border-radius: 8px;
-  box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
-  box-sizing: border-box;
-  color: #FFFFFF;
-  display: flex;
-  font-family: Phantomsans, sans-serif;
-  font-size: 10px;
-  justify-content: center;
-  line-height: 1em;
-  max-width: 100%;
-  min-width: 100px;
-  padding: 19px 24px;
+.button-33 {
+  background-color: #c2fbd7;
+  border-radius: 20px;
+  box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
+  color: green;
+  cursor: pointer;
+  display: inline-block;
+  font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+  padding: 7px 20px;
+  margin-top: 20px;
+  text-align: center;
   text-decoration: none;
+  transition: all 250ms;
+  border: 0;
+  font-size: 20px;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  white-space: nowrap;
-  cursor: pointer;
+  width:250px;
+  height: 200px;
 }
 
-.button-63:active,
-.button-63:hover {
-  outline: 0;
+.button-33:hover {
+  box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
+  transform: scale(1.05) rotate(-1deg);
 }
-
-@media (min-width: 768px) {
-  .button-63 {
-    font-size: 16px;
-    min-width: 80px;
-  }
-}
-
 
 @keyframes animate {
   0%{
@@ -174,9 +166,6 @@
   background: rgba(255, 255, 255, 0.2);
   animation: animate 19s linear infinite;
 }
-
-
-
 
 .background li:nth-child(0) {
   left: 65%;

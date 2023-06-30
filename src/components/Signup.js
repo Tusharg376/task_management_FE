@@ -81,6 +81,7 @@ function App() {
         setErrors(validationErrors);
     }
 };
+
 const validateSignupForm = () => {
     const errors = {};
 
@@ -88,16 +89,26 @@ const validateSignupForm = () => {
         errors.name = "Name is required";
     }
 
+    const nameRegex = /^[a-zA-Z '.-]+$/;
+    if(!nameRegex.test(name)){
+      errors.match = "Invalid Name"
+    }
+
     if (!email) {
         errors.email = "Email is required";
+    }
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(!emailRegex.test(email)){
+      errors.match = "Invalid Email"
     }
 
     if (!password) {
         errors.password = "Password is required";
     }
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
+    const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
 
-    if (!regex.test(password)) {
+    if (!passRegex.test(password)) {
         errors.match = "password must contain min 8 characters with lower and upper case alphabets and one special character"
     }
 
