@@ -28,7 +28,7 @@ export default function CreateTask({ modal, toggle, save }) {
                         toast: true,
                         position: "top-end",
                         showConfirmButton: false,
-                        timer: 2500,
+                        timer: 3000,
                         timerProgressBar: true,
                         background: "white",
                         iconColor: "#222",
@@ -44,7 +44,7 @@ export default function CreateTask({ modal, toggle, save }) {
                     toast: true,
                     position: "top-end",
                     showConfirmButton: false,
-                    timer: 2500,
+                    timer: 3000,
                     timerProgressBar: true,
                     background: "white",
                     iconColor: "#222",
@@ -69,6 +69,17 @@ export default function CreateTask({ modal, toggle, save }) {
         return errors;
     }
 
+
+    const titleInput = (e)=>{
+        setErrors({});
+        setTitle(e.target.value);
+    }
+
+    const descriptionInput = (e)=>{
+        setErrors({});
+        setDescription(e.target.value);
+    }
+
     return (
         <div>
             <Modal isOpen={modal} toggle={toggle} >
@@ -77,12 +88,12 @@ export default function CreateTask({ modal, toggle, save }) {
                     <form>
                         <div className="form-group">
                             <label>Title</label>
-                            <input type='text' className='form-control' value={title} onChange={(e) => setTitle(e.target.value)} />
+                            <input type='text' className='form-control' value={title} onChange={titleInput} />
                         </div>
                         <br />
                         <div className="form-group">
                             <label>Description</label>
-                            <textarea rows={5} className='form-control' value={description} onChange={(e) => setDescription(e.target.value)} ></textarea>
+                            <textarea rows={5} className='form-control' value={description} onChange={descriptionInput}></textarea>
                         </div>
                     </form>
                 </ModalBody>

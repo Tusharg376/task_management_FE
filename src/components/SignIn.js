@@ -27,10 +27,22 @@ function App() {
     }
     fetchData()
 })
+
+const emailInput = (e)=>{
+  setEmail(e.target.value);
+  setErrors({});
+}
+
+const passwordInput = (e)=>{
+  setPassword(e.target.value);
+  setErrors({});
+}
+
 const userLogin = async () => {
     const validationErrors = validateLoginForm();
 
     if (Object.keys(validationErrors).length === 0) {
+      setErrors({})
         await axios.post(`${apiurl}/signin`, {
             email,
             password
@@ -45,7 +57,7 @@ const userLogin = async () => {
                     toast: true,
                     position: "top-end",
                     showConfirmButton: false,
-                    timer: 2500,
+                    timer: 3000,
                     timerProgressBar: true,
                     background: "white",
                     iconColor: "#222",
@@ -60,7 +72,7 @@ const userLogin = async () => {
                     toast: true,
                     position: "top-end",
                     showConfirmButton: false,
-                    timer: 2500,
+                    timer: 3000,
                     timerProgressBar: true,
                     background: "white",
                     iconColor: "#222",
@@ -76,6 +88,11 @@ const validateLoginForm = () => {
 
     if (!email) {
         errors.email = "Email is required";
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(!emailRegex.test(email)){
+      errors.match = "Invalid Email"
     }
 
     if (!password) {
@@ -105,10 +122,10 @@ const validateLoginForm = () => {
           </div>
           <br/>
           <label htmlFor="form1" className="form-label">Email address</label>
-          <MDBInput wrapperClass='mb-4' id='formControlLg' type='email' size="lg" value={email} onChange={(e)=>setEmail(e.target.value)} />
+          <MDBInput wrapperClass='mb-4' id='formControlLg' type='email' size="lg" value={email} onChange={emailInput} />
           <label htmlFor="form1" className="form-label">Password</label>
-          <MDBInput wrapperClass='mb-4' id='formControlLg' type='password' size="lg" value={password} onChange={(e)=>setPassword(e.target.value)} />
-          {(errors.email || errors.password) && <Alert variant='outlined' severity="error">{(errors.email || errors.password)}</Alert>}
+          <MDBInput wrapperClass='mb-4' id='formControlLg' type='password' size="lg" value={password} onChange={passwordInput} />
+          {(errors.email || errors.password || errors.match) && <Alert variant='outlined' severity="error">{(errors.email || errors.password || errors.match)}</Alert>}
           <div className='text-center text-md-start mt-4 pt-2'>
           <button className='btn btn-primary w-100 mb-3' onClick={userLogin} > Signin</button>
             <p className="small fw-bold mt-2 pt-1 mb-2">New to Manager? <Link to="/signup" className="link-danger">Register Now!!</Link></p>

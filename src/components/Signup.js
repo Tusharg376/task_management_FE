@@ -33,6 +33,20 @@ function App() {
       }
       fetchData()
   })
+  const nameInput = (e)=>{
+    setName(e.target.value);
+    setErrors({});
+  };
+
+  const emailInput = (e)=>{
+    setEmail(e.target.value);
+    setErrors({});
+  };
+
+  const passwordInput = (e)=>{
+    setPassword(e.target.value);
+    setErrors({});
+  };
 
   const userSignup = async () => {
     const validationErrors = validateSignupForm();
@@ -54,7 +68,7 @@ function App() {
                     toast: true,
                     position: "top-end",
                     showConfirmButton: false,
-                    timer: 2500,
+                    timer: 3000,
                     timerProgressBar: true,
                     background: "white",
                     iconColor: "#222",
@@ -70,7 +84,7 @@ function App() {
                 toast: true,
                 position: "top-end",
                 showConfirmButton: false,
-                timer: 2500,
+                timer: 3000,
                 timerProgressBar: true,
                 background: "white",
                 iconColor: "#222",
@@ -138,11 +152,11 @@ const validateSignupForm = () => {
           <MDBCard className='my-2.5'>
             <MDBCardBody className='p-5'>
             <label htmlFor="form1" className="form-label">Name</label>
-              <MDBInput wrapperClass='mb-4'  id='form1' type='text' value={name} onChange={(e)=>setName(e.target.value)} />
+              <MDBInput wrapperClass='mb-4'  id='form1' type='text' value={name} onChange={nameInput} />
               <label htmlFor="form1" className="form-label">Email address</label>
-              <MDBInput wrapperClass='mb-4'  id='form1' type='email' value={email} onChange={(e)=>setEmail(e.target.value)} />
+              <MDBInput wrapperClass='mb-4'  id='form1' type='email' value={email} onChange={emailInput} />
               <label htmlFor="form1" className="form-label">Password</label>
-              <MDBInput wrapperClass='mb-4'  id='form1' type='password' value={password} onChange={(e)=>setPassword(e.target.value)} />
+              <MDBInput wrapperClass='mb-4'  id='form1' type='password' value={password} onChange={passwordInput} />
               
               <MDBFile label='Profile Picture(optional)' id='customFile' onChange={(e)=>setProfile(e.target.files[0])} />
               <br/>
