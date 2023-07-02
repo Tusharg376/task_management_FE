@@ -80,7 +80,7 @@
 }
 
 .task-container{
-  height: 600px;
+  height: auto;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
