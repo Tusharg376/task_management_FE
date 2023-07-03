@@ -31,7 +31,9 @@ export default function Card({createModal}) {
     }
   ]
 
-  const toggle = () => setModal(!modal)
+  const toggle = () => {
+    setModal(!modal)
+  }
   const toggleModal = (task_id) => {
     setModal((prevModal) => ({
       ...prevModal,

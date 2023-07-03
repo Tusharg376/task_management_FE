@@ -21,6 +21,7 @@ function App() {
   const [name, setName] = useState('');
   const [profile, setProfile] = useState(null);
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const apiurl = process.env.REACT_APP_API_URL
 
   const token = localStorage.getItem("token")
@@ -52,6 +53,7 @@ function App() {
     const validationErrors = validateSignupForm();
 
     if (Object.keys(validationErrors).length === 0) {
+        setIsLoading(true);
         const formData = new FormData();
         formData.append('name', name);
         formData.append('email', email);
@@ -91,6 +93,7 @@ function App() {
                 padding: "0.5rem",
             });
         })
+        setIsLoading(false);
     } else {
         setErrors(validationErrors);
     }
@@ -162,7 +165,10 @@ const validateSignupForm = () => {
               <br/>
               {(errors.name || errors.email || errors.password || errors.match) && <Alert variant='outlined' severity="error">{(errors.name || errors.email || errors.password || errors.match)}</Alert>}
               <br/>
-              <button className='btn btn-primary w-100 mb-3' onClick={userSignup} > Register</button>
+              {/* <button className='btn btn-primary w-100 mb-3' onClick={userSignup} > Register</button> */}
+              <button className='btn btn-primary w-100 mb-3' onClick={userSignup} disabled={isLoading}>
+                {isLoading ? 'Loading...' : 'Register'}
+              </button>
             <p className="small fw-bold mt-2 pt-1 mb-2">Already Have An Account? <Link to="/signin" className="link-danger">Login Here</Link></p>
             </MDBCardBody>
           </MDBCard>

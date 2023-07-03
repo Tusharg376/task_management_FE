@@ -15,6 +15,7 @@ function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const token = localStorage.getItem("token")
   const apiurl = process.env.REACT_APP_API_URL
@@ -42,7 +43,7 @@ const userLogin = async () => {
     const validationErrors = validateLoginForm();
 
     if (Object.keys(validationErrors).length === 0) {
-      setErrors({})
+      setIsLoading(true);
         await axios.post(`${apiurl}/signin`, {
             email,
             password
@@ -79,6 +80,7 @@ const userLogin = async () => {
                     padding: "0.5rem",
                 });
             })
+            setIsLoading(false);
     } else {
         setErrors(validationErrors);
     }
@@ -127,7 +129,9 @@ const validateLoginForm = () => {
           <MDBInput wrapperClass='mb-4' id='formControlLg' type='password' size="lg" value={password} onChange={passwordInput} />
           {(errors.email || errors.password || errors.match) && <Alert variant='outlined' severity="error">{(errors.email || errors.password || errors.match)}</Alert>}
           <div className='text-center text-md-start mt-4 pt-2'>
-          <button className='btn btn-primary w-100 mb-3' onClick={userLogin} > Signin</button>
+          <button className='btn btn-primary w-100 mb-3' onClick={userLogin} disabled={isLoading}>
+                {isLoading ? 'Loading...' : 'Login'}
+              </button>
             <p className="small fw-bold mt-2 pt-1 mb-2">New to Manager? <Link to="/signup" className="link-danger">Register Now!!</Link></p>
           </div>
         </MDBCol>

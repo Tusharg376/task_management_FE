@@ -54,7 +54,7 @@ export default function TodoList() {
                 <div className='title-div'>
                     <h3 id="my-heading">Todo List</h3>
                 </div>
-                <div className='profile-div'>
+                <div className='logoutBtn'>
                     <button className='btn btn-danger' onClick={handleLogout} >Logout</button>
                      </div>
             </div>

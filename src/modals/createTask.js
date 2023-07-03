@@ -56,6 +56,12 @@ export default function CreateTask({ modal, toggle, save }) {
         }
     }
 
+    const cancelCreate = ()=>{
+        setTitle("");
+        setDescription("")
+        toggle()
+    }
+
     const validationTask = ()=>{
         const errors = {};
 
@@ -102,7 +108,7 @@ export default function CreateTask({ modal, toggle, save }) {
                     <Button color="primary" onClick={saveTask}>
                         Create
                     </Button>{' '}
-                    <Button color="secondary" onClick={toggle}>
+                    <Button color="secondary" onClick={cancelCreate}>
                         Cancel
                     </Button>
                 </ModalFooter>
